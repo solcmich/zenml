@@ -39,7 +39,7 @@ def run(config: dict, env: str):
     cfg = MonitoringConfig(
         log_dir=paths_config.get("log_dir", "../storage/forecasts_evidently/"),
         reference_data_dir=paths_config.get(
-            "reference_data_dir", "../src/example_fs_station_database",
+            "reference_data_dir", "../src/reference_data",
         ),
     )
 
