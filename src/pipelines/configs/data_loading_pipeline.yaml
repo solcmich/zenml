@@ -1,19 +1,2 @@
-data_source:
-  id: "*"  # Default from argparse: default="*"
-  new_source_history_length_days: 100  # Default from argparse: default=100
-  force_full_history_download: false  # Default from argparse: default=False
-  source_update_cooldown_minutes: 30  # Default from argparse: default=30
-  parallel_downloads: 1  # Default from argparse: default=1
-
-storage:
-  type: "database"  # Based on DataStorageDatabase usage
-  config: {}  # Will be loaded from CONFIG
-
-processing:
-  batch_size: 1000
-  num_workers: 4
-  shuffle: true
-
-output:
-  path: "data/processed"
-  format: "parquet"
+dummy: 50
+data_source_id: "Test"

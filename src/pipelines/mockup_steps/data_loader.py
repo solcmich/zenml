@@ -35,16 +35,9 @@ def load_training_data(
     np.random.seed(42)
     n_samples = 1000
     
-    # Create timestamps
-    dates = pd.date_range(
-        start=config.data_range_start,
-        end=config.data_range_end,
-        periods=n_samples
-    )
-    
     # Generate features
     data = {
-        'timestamp': dates,
+        # 'timestamp': dates,
         'temperature': np.random.normal(20, 5, n_samples),
         'humidity': np.random.normal(65, 10, n_samples),
         'pressure': np.random.normal(1013, 5, n_samples),

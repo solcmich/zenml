@@ -11,6 +11,7 @@ class TrainingPipelineConfig(BaseModel):
 
 class DataLoadingPipelineConfig(BaseModel):
     dummy: int = Field(default=3000)
+    data_source_id: str = Field(default=None)
 
 
 class MonitoringConfig(BaseModel):
