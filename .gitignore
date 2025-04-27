@@ -1,0 +1,15 @@
+__pycache__
+catboost_info
+*.csv
+*.cbm
+.idea
+sql/liquibase.log
+set_env.sh
+mlruns
+mlartifacts
+venv.localweather
+*.feather
+mlruns
+mlartifacts
+.env
+.venv
