@@ -1,15 +1,1 @@
-training:
-  batch_size: 32
-  learning_rate: 0.001
-  epochs: 100
-  validation_split: 0.2
-  nested: false
-
-data:
-  input_path: "data/processed"
-  target_column: "temperature"
-  feature_columns: ["pressure", "humidity", "wind_speed"]
-  range_start: "2023-11-01"
-  range_end: "2025-03-22"
-  test_size: 0.3
-  shuffle: false
+dummy: 50

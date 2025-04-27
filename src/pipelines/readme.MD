@@ -31,7 +31,6 @@ pipelines/
 ├── training_pipeline.py
 ├── monitoring_pipeline.py
 ├── configs/              # YAML configuration files
-├── steps/               # Core pipeline steps
 └── mockup_steps/        # Mock implementations for testing
 ```
 
@@ -48,8 +47,8 @@ The system uses YAML-based configuration files located in the `configs/` directo
 The system supports multiple environments (dev/prod) with environment-specific settings:
 
 ```bash
-export LWF_ENV=dev  # or test,prod
-export LWF_STACK=local  # or docker
+export ENV=dev  # or test,prod
+export STACK=local  # or docker
 ```
 
 ## Running Pipelines
@@ -58,13 +57,13 @@ Pipelines can be executed using the `makefile`:
 
 ```bash
 # Run data loading pipeline
-make run-pipeline LWF_PIPELINE=data_loading_pipeline
+make run-pipeline-local PIPELINE=data_loading_pipeline
 
 # Run training pipeline
-make run-pipeline LWF_PIPELINE=training_pipeline # (default)
+make run-pipeline-local PIPELINE=training_pipeline # (default)
 
 # Run monitoring pipeline
-make run-pipeline LWF_PIPELINE=monitoring_pipeline
+make run-pipeline-local PIPELINE=monitoring_pipeline
 ```
 
 ## Mockup Steps

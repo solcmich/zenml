@@ -10,8 +10,8 @@ from mlflow.tracking import MlflowClient
 
 logger = logging.getLogger(__name__)
 
-ENV = os.environ["LWF_ENV"]
-STACK = os.environ["LWF_STACK"]
+ENV = os.environ["ENV"]
+STACK = os.environ["STACK"]
 
 def get_run_by_name(parent_run_id: str, station_id: str):
     """Helper to retrieve child run matching station ID."""

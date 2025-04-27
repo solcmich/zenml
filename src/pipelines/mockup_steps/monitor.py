@@ -13,8 +13,8 @@ from pipelines.config import MonitoringConfig
 
 logger = logging.getLogger(__name__)
 
-ENV = os.environ["LWF_ENV"]
-STACK = os.environ["LWF_STACK"]
+ENV = os.environ["ENV"]
+STACK = os.environ["STACK"]
 
 def generate_sample_data(n_samples: int = 1000) -> pd.DataFrame:
     """Generate sample weather data with some drift patterns."""

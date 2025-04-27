@@ -10,8 +10,8 @@ from pipelines.mockup_steps.data_loader import load_training_data
 from pipelines.mockup_steps.trainer import train_models
 from pipelines.mockup_steps.validate_and_deploy import validate_and_deploy_models
 
-ENV = os.environ["LWF_ENV"]
-STACK = os.environ["LWF_STACK"]
+ENV = os.environ["ENV"]
+STACK = os.environ["STACK"]
 
 
 @pipeline(

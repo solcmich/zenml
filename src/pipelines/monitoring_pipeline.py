@@ -1,17 +1,13 @@
 import os
-# mock
-MOCKUP = os.environ["LWF_MOCKUP"].lower() == "true"
-
-if MOCKUP:
-    from mockup_steps.monitor import generate_evidently_report
+from mockup_steps.monitor import generate_evidently_report
 
 from zenml import pipeline
 from zenml.config import DockerSettings
 
 from pipelines.config import MonitoringConfig
 
-ENV = os.environ["LWF_ENV"]
-STACK = os.environ["LWF_STACK"]
+ENV = os.environ["ENV"]
+STACK = os.environ["STACK"]
 
 
 # Either add it to the decorator

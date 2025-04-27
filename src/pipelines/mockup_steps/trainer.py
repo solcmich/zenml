@@ -21,10 +21,9 @@ class MockModel:
         """Generate mock predictions."""
         return np.dot(X, self.coefficients) + np.random.normal(0, 1, len(X))
 
-ENV = os.environ["LWF_ENV"]
-STACK = os.environ["LWF_STACK"]
+ENV = os.environ["ENV"]
+STACK = os.environ["STACK"]
 
-print(os.environ["LWF_STACK"])
 
 @step(
     settings={

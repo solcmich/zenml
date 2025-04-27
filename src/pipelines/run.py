@@ -21,8 +21,8 @@ def main():
     # Load .env variables
     load_dotenv()
 
-    pipeline_name = os.getenv("LWF_PIPELINE", "default")
-    env = os.getenv("LWF_ENV", "dev")
+    pipeline_name = os.getenv("PIPELINE", "default")
+    env = os.getenv("ENV", "dev")
 
     try:
         # Ensure current dir is in the path

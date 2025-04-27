@@ -5,10 +5,10 @@ endif
 
 .PHONY: init init-local init-docker run-pipeline run-prediction-service clean help test
 
-LWF_ENV ?= dev
-LWF_STACK ?= local
-LWF_PIPELINE ?= training_pipeline
-LWF_MOCKUP ?= False
+ENV ?= dev
+STACK ?= local
+PIPELINE ?= training_pipeline
+MLFLOW_TRACKING_URL ?= http://127.0.0.1:5050
 
 help:
 	@echo "Available targets:"
@@ -20,8 +20,7 @@ help:
 	@echo "  help           - Show this help message"
 
 init: check-requirements
-	@export DOCKER_HOST=unix:///Users/solcmich/.colima/default/docker.sock
-	@zenml login --local --docker
+	@python -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt && zenml login --local --docker
 
 check-requirements:
 	@echo "Checking requirements..."
@@ -31,26 +30,26 @@ check-requirements:
 # Generic component creation target
 create-components-%:
 	@echo "Creating $(*) stack components..."
-	@zenml orchestrator register $*_orchestrator_$(LWF_ENV) --flavor=$(*)
-	@zenml artifact-store register $*_store_$(LWF_ENV) --flavor=local
-	@zenml experiment-tracker register $*_tracker_$(LWF_ENV) --flavor=mlflow
+	@zenml orchestrator register $*_orchestrator_$(ENV) --flavor=$(*)
+	@zenml artifact-store register $*_store_$(ENV) --flavor=local
+	@zenml experiment-tracker register $*_tracker_$(ENV) --flavor=mlflow --tracking_uri=$(MLFLOW_TRACKING_URL) --tracking_username=admin --tracking_password=admin
 
 # Generic stack registration target
 register-stack-%:
 	@echo "Registering $* stack..."
-	@zenml stack register $*_stack_$(LWF_ENV) \
-		-o $*_orchestrator_$(LWF_ENV) \
-		-a $*_store_$(LWF_ENV) \
-		-e $*_tracker_$(LWF_ENV) \
+	@zenml stack register $*_stack_$(ENV) \
+		-o $*_orchestrator_$(ENV) \
+		-a $*_store_$(ENV) \
+		-e $*_tracker_$(ENV) \
 		--set
 
 set-stack-%:
 	@echo "Setting $* stack as active stack.."
-	@zenml stack set $*_stack_$(LWF_ENV) \
+	@zenml stack set $*_stack_$(ENV) \
 
-run-pipeline:
-	@echo "Running pipeline $(LWF_PIPELINE) with stack $(LWF_STACK) in environment $(LWF_ENV)"
-	@cd src/ && zenml stack set $(LWF_STACK)_stack_$(LWF_ENV)
+run-pipeline-%:
+	@echo "Running pipeline $(PIPELINE) with stack $* in environment $(ENV)"
+	@cd src/ && zenml stack set $*_stack_$(ENV)
 	@cd src/ && python pipelines/run.py
 
 run-prediction-service:
