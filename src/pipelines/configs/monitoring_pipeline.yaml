@@ -1,0 +1,25 @@
+metrics:
+  - name: "mae"
+    threshold: 2.0
+  - name: "rmse"
+    threshold: 3.0
+  - name: "r2"
+    threshold: 0.8
+
+alerts:
+  email:
+    enabled: true
+    recipients: ["team@example.com"]
+  slack:
+    enabled: true
+    webhook_url: "https://hooks.slack.com/services/..."
+
+monitoring_frequency: "1h"
+
+paths:
+  log_dir: "../storage/forecasts_evidently/"
+  reference_data_dir: "../src/example_fs_station_database"
+
+docker:
+  parent_image: "zenmldocker/zenml:py3.11"
+  replicate_local_python_environment: "pip_freeze"
