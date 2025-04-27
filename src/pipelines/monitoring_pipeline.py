@@ -37,7 +37,7 @@ def run(config: dict, env: str):
 
     # Create monitoring config
     cfg = MonitoringConfig(
-        log_dir=paths_config.get("log_dir", "../storage/forecasts_evidently/"),
+        log_dir=paths_config.get("log_dir", "../storage/forecasts/"),
         reference_data_dir=paths_config.get(
             "reference_data_dir", "../src/reference_data",
         ),
