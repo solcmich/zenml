@@ -1,10 +1,10 @@
 import os
-from mockup_steps.monitor import generate_evidently_report
+from steps.monitor import generate_evidently_report
 
 from zenml import pipeline
 from zenml.config import DockerSettings
 
-from pipelines.config import MonitoringConfig
+from config import MonitoringConfig
 
 ENV = os.environ["ENV"]
 STACK = os.environ["STACK"]
@@ -16,12 +16,20 @@ STACK = os.environ["STACK"]
         "docker": DockerSettings(
             parent_image="zenmldocker/zenml:py3.11",
             # replicate_local_python_environment="pip_freeze",
+            environment={"ENV": ENV, "STACK": STACK}
         ),
     },
     enable_cache=False,
-    name=f"monitoring_pipeline_{ENV}",
+    name=f"{STACK}_monitoring_pipeline_{ENV}",
 )
 def monitoring_pipeline(cfg: MonitoringConfig):
+    """Monitoring pipeline example
+
+    Parameters
+    ----------
+    cfg : MonitoringConfig
+        Config to pass to the monitoring pipeline
+    """
     generate_evidently_report(cfg)
 
 

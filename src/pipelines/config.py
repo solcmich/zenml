@@ -1,12 +1,9 @@
-from datetime import datetime, timezone
-
 from pydantic import BaseModel, Field
 
 
 class TrainingPipelineConfig(BaseModel):
     # Model hyperparameters
     dummy: int = Field(default=3000)
-
 
 
 class DataLoadingPipelineConfig(BaseModel):

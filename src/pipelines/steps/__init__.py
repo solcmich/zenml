@@ -5,9 +5,9 @@ from .validate_and_deploy import validate_and_deploy_models
 from .monitor import generate_evidently_report
 
 __all__ = [
-    'load_data_sources',
-    'load_training_data',
-    'train_models',
-    'validate_and_deploy_models',
-    'generate_evidently_report'
-] 
+    "load_data_sources",
+    "load_training_data",
+    "train_models",
+    "validate_and_deploy_models",
+    "generate_evidently_report",
+]

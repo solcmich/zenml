@@ -50,7 +50,7 @@ def main():
     except FileNotFoundError as e:
         print(f"Configuration error: {e}")
         sys.exit(1)
-    #except Exception as e:
+    # except Exception as e:
     #    print(f"Error while running pipeline '{pipeline_name}': {e}")
     #    sys.exit(1)
 

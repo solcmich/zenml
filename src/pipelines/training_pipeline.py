@@ -4,11 +4,10 @@ from datetime import datetime, timezone
 from zenml import pipeline
 from zenml.config import DockerSettings
 
-from pipelines.config import TrainingPipelineConfig
-
-from pipelines.mockup_steps.data_loader import load_training_data
-from pipelines.mockup_steps.trainer import train_models
-from pipelines.mockup_steps.validate_and_deploy import validate_and_deploy_models
+from config import TrainingPipelineConfig
+from steps.data_loader import load_training_data
+from steps.trainer import train_models
+from steps.validate_and_deploy import validate_and_deploy_models
 
 ENV = os.environ["ENV"]
 STACK = os.environ["STACK"]
@@ -18,11 +17,12 @@ STACK = os.environ["STACK"]
     settings={
         "docker": DockerSettings(
             parent_image="zenmldocker/zenml:py3.11",
-            replicate_local_python_environment="pip_freeze",
+            # replicate_local_python_environment="pip_freeze",
+            environment={"ENV": ENV, "STACK": STACK}
         ),
     },
     enable_cache=False,
-    name=f"training_pipeline_{ENV}",
+    name=f"{STACK}_training_pipeline_{ENV}",
 )
 def training_pipeline(config: TrainingPipelineConfig) -> None:
     """Training pipeline for weather prediction models.

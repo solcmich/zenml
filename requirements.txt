@@ -1,3 +1,4 @@
 mlflow==2.18.0
-zenml==0.80.0
+zenml==0.82.0
+zenml[server]==0.82.0
 evidently==0.6.7
