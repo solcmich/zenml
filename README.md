@@ -48,7 +48,7 @@ The system supports multiple environments (dev/prod) with environment-specific s
 
 ```bash
 export ENV=dev  # or test,prod
-export STACK=local  # or docker
+export STACK=local  # or local_docker
 ```
 
 ## Running Pipelines
@@ -57,7 +57,7 @@ Pipelines can be executed using the `makefile`:
 
 ```bash
 # Run data loading pipeline
-make run-pipeline-local PIPELINE=data_loading_pipeline
+make run-pipeline-local PIPELINE=data_source_loading_pipeline
 
 # Run training pipeline
 make run-pipeline-local PIPELINE=training_pipeline # (default)
