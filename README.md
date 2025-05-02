@@ -2,6 +2,8 @@
 
 This directory contains the core pipeline system for the Weather Prediction project. The system is built using ZenML and consists of three main pipelines: data loading, training, and monitoring.
 
+[Video](https://www.youtube.com/playlist?list=PLpjHGjIAgyNl8yzT9tZNB7NwL4ScNtMX1) showcasing the application of this template on a real use case.
+
 ## Pipeline Architecture
 
 The system follows a modular design with three main pipelines:
