@@ -21,7 +21,7 @@ The system follows a modular design with three main pipelines:
    - Generates Evidently reports
    - Monitors model performance
 
-## Directory Structure
+## Pipelines Structure
 
 ```
 pipelines/
@@ -31,14 +31,14 @@ pipelines/
 ├── training_pipeline.py
 ├── monitoring_pipeline.py
 ├── configs/              # YAML configuration files
-└── mockup_steps/        # Mock implementations for testing
+└── steps/        # Mock implementations for testing
 ```
 
 ## Configuration
 
 The system uses YAML-based configuration files located in the `configs/` directory. Each pipeline has its own configuration file:
 
-- `data_loading.yaml`: Data source and loading parameters
+- `data_source_loading.yaml`: Data source and loading parameters
 - `training.yaml`: Model training and validation settings
 - `monitoring.yaml`: Monitoring and drift detection parameters
 

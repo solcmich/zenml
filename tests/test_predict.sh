@@ -1,0 +1,1 @@
+cd tests/ && python predict_test.py

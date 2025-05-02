@@ -67,7 +67,7 @@ set-stack-%:
 	@zenml stack set $*_stack_$(ENV)
 
 run-mlflow: 
-	@echo "Starting mlflow server on $(MLFLOW_TRACKING_URL)"
+	@echo "Starting mlflow and forecasting server on $(MLFLOW_TRACKING_URL)"
 	@cd docker && docker-compose up
 
 run-pipeline-%: 
@@ -79,6 +79,8 @@ run-pipeline-%:
 
 clean:
 	@echo "Cleaning up..."
+	@zenml clean
 	@rm -rf __pycache__
 	@rm -rf .pytest_cache
+	@rm -rf storage/
 

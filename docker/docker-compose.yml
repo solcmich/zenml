@@ -1,6 +1,19 @@
 version: '3.8'
 
 services:
+  forecasting:
+    build: 
+      context: ../
+      dockerfile: ./docker/forecasting_service/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - MLFLOW_TRACKING_URI=http://mlflow:5050
+      - PYTHONPATH=src/
+    volumes:
+      - ../storage:/storage
+    depends_on:
+      - mlflow
   mlflow:
     image: ghcr.io/mlflow/mlflow:latest
     ports:

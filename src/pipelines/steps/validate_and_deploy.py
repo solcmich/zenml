@@ -82,8 +82,16 @@ def validate_and_deploy_models(
         try:
             model_name = station_id
 
+            filter_string = (
+                f"tags.mlflow.parentRunId = '{parent_run_id}' and "
+                f"attribute.run_name = '{station_id}'"
+            )
+
             # Register model
-            model_uri = f"runs:/{parent_run_id}/model"
+            run_ids = mlflow.search_runs(filter_string=filter_string, output_format="list")
+            run_id = run_ids[0].info.run_id
+            
+            model_uri = f"runs:/{run_id}/model"
             registered_model = mlflow.register_model(
                 model_uri=model_uri, name=model_name
             )

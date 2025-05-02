@@ -7,10 +7,19 @@ from zenml import step
 from zenml.config import DockerSettings
 from config import TrainingPipelineConfig
 import pandas as pd
+import mlflow.pyfunc
 
 logger = logging.getLogger(__name__)
 
+class MockPyFuncWrapper(mlflow.pyfunc.PythonModel):
+    def load_context(self, context):
+        # Generate random coefficients and bias every time model is loaded
+        self.coefficients = np.random.rand(4)
+        self.bias = np.random.randn()
 
+    def predict(self, context, model_input):
+        return np.dot(model_input, self.coefficients) + self.bias
+    
 class MockModel:
     """A simple mock model that returns random predictions."""
 
@@ -33,6 +42,7 @@ STACK = os.environ["STACK"]
         "docker": DockerSettings(
             parent_image="zenmldocker/zenml:py3.11",
             replicate_local_python_environment="pip_freeze",
+            environment={"ENV": ENV, "STACK": STACK}
         ),
     },
     experiment_tracker=f"{STACK}_tracker_{ENV}",
@@ -105,7 +115,21 @@ def train_models(
             model = MockModel(station, model_params)
             models[station] = model
 
-            logger.info(f"Mock: Logged experiment for station {station}")
+            # Save model weights as JSON
+            weights = {
+                "coefficients": model.coefficients.tolist(),
+                "bias": np.random.randn(),
+            }
+            weights_path = "model_weights.json"
+            mlflow.log_dict(weights, weights_path)
+
+            # Log the model so it can be loaded with mlflow.pyfunc.load_model
+            mlflow.pyfunc.log_model(
+                artifact_path="model",
+                python_model=MockPyFuncWrapper(),
+                # artifacts={"weights_path": weights_path},
+            )
+        logger.info(f"Mock: Logged experiment for station {station}")
 
     logger.info("Mock: Model training and MLflow logging completed")
     return models
