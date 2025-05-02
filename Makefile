@@ -83,4 +83,6 @@ clean:
 	@rm -rf __pycache__
 	@rm -rf .pytest_cache
 	@rm -rf storage/
+	@rm -rf src/example_database
+	@rm -rf .venv/
 

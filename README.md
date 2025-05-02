@@ -1,4 +1,4 @@
-# Weather Prediction Pipeline System
+# ZenML productionalization template
 
 This directory contains the core pipeline system for the Weather Prediction project. The system is built using ZenML and consists of three main pipelines: data loading, training, and monitoring.
 
@@ -6,7 +6,7 @@ This directory contains the core pipeline system for the Weather Prediction proj
 
 The system follows a modular design with three main pipelines:
 
-1. **Data Loading Pipeline** (`data_loading_pipeline.py`)
+1. **Data Source Loading Pipeline** (`data_source_loading_pipeline.py`)
    - Handles data ingestion from various sources
    - Manages data updates and cooldown periods
    - Supports parallel processing for efficient data loading
@@ -21,18 +21,33 @@ The system follows a modular design with three main pipelines:
    - Generates Evidently reports
    - Monitors model performance
 
+## Repository Structure
+
+```
+template/
+├── docker/               # Docker orchestration of MLflow and inference server
+├── pipelines/            # Pipelines
+├── forecasting.py        # Sample forecasting service
+├── tests/                # scripts for testing
+├── requirements.txt      # Requirements
+├── .env.example          # Env example
+└── Makefile/             # Orchestartion and abstraction
+```
+
 ## Pipelines Structure
 
 ```
 pipelines/
-├── config.py              # Central configuration management
+├── config.py             # Central configuration management
 ├── run.py                # Pipeline execution entry point
-├── data_loading_pipeline.py
+├── data_source_loading_pipeline.py
 ├── training_pipeline.py
 ├── monitoring_pipeline.py
 ├── configs/              # YAML configuration files
-└── steps/        # Mock implementations for testing
+└── steps/                # Mock implementations for testing
 ```
+
+
 
 ## Configuration
 
@@ -51,20 +66,81 @@ export ENV=dev  # or test,prod
 export STACK=local  # or local_docker
 ```
 
-## Running Pipelines
+# How to run
 
-Pipelines can be executed using the `makefile`:
+To run the Pipeline System, follow these steps (for the weather use case pipeline system, the steps are the same, just every environmental variable has a prefix `LWF_`):
 
-```bash
-# Run data loading pipeline
-make run-pipeline-local PIPELINE=data_source_loading_pipeline
+1. **Prerequisites:**
+   - Docker daemon is running.
+   - If you have any docker registries that require authentication in the docker config, you need to be authenticated.
+   - Python is installed.
 
-# Run training pipeline
-make run-pipeline-local PIPELINE=training_pipeline # (default)
+2. **Set up the environment:**
 
-# Run monitoring pipeline
-make run-pipeline-local PIPELINE=monitoring_pipeline
-```
+   ```bash
+   # Install all requirements and run ZenML server as follows:
+   make init
+
+   # Activate venv:
+   source .venv/bin/activate
+
+   # Create ZenML components:
+   make create-components-{local, local_docker} ENV={dev,test,prod}
+
+   # Register ZenML stacks:
+   make register-stack-{local, local_docker} ENV={dev,test,prod}
+   ```
+
+3. **Run MLflow server:**
+
+   Run MLflow and prediction server using the predefined docker compose.
+
+   ```bash
+   # Run MLflow server in separate bash
+   make run-mlflow
+   ```
+
+4. **Execute the pipelines:**
+
+   Pipelines are executed via a `Makefile` interface. Run specific pipelines using:
+
+   ```bash
+   # Run the data loading pipeline
+   make run-pipeline-{local, local_docker} PIPELINE=data_source_loading_pipeline ENV={dev,test,prod}
+
+   # Run the training pipeline (default)
+   make run-pipeline-{local, local_docker} PIPELINE=training_pipeline ENV={dev,test,prod}
+
+   # Run the monitoring pipeline
+   make run-pipeline-{local, local_docker} PIPELINE=monitoring_pipeline ENV={dev,test,prod}
+   ```
+
+5. **Configuration:**
+   - Configuration files located in the `configs/` directory define parameters for each pipeline:
+     - `data_loading.yaml` for data ingestion settings
+     - `training.yaml` for model training parameters
+     - `monitoring.yaml` for monitoring and drift detection
+
+6. **MLflow Integration:**
+
+   Ensure MLflow is running (e.g., via `docker-compose` in the `../docker` directory) for experiment tracking, model versioning, and model registry management.
+
+7. **Run predictions:**
+
+   If training was already run and some models are registered, you can run test predictions using:
+
+   ```bash
+   python tests/predict_test.py
+   ```
+# How to test
+For testing, you can run the test scripts in tests folder
+
+   ```bash
+   ./tests/tests_local.sh
+   ./tests/tests_docker.sh
+   ./tests/test_mlflow.sh
+   python predict_test.py
+   ```
 
 ## Mockup Steps
 

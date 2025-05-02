@@ -13,9 +13,11 @@ logger = logging.getLogger(__name__)
 
 class MockPyFuncWrapper(mlflow.pyfunc.PythonModel):
     def load_context(self, context):
-        # Generate random coefficients and bias every time model is loaded
-        self.coefficients = np.random.rand(4)
-        self.bias = np.random.randn()
+        import json
+        with open(context.artifacts["weights_path"], "r") as f:
+            weights = json.load(f)
+        self.coefficients = np.array(weights["coefficients"])
+        self.bias = weights["bias"]
 
     def predict(self, context, model_input):
         return np.dot(model_input, self.coefficients) + self.bias
@@ -40,7 +42,7 @@ STACK = os.environ["STACK"]
 @step(
     settings={
         "docker": DockerSettings(
-            parent_image="zenmldocker/zenml:py3.11",
+            parent_image="zenmldocker/zenml:0.82.0-py3.11",
             replicate_local_python_environment="pip_freeze",
             environment={"ENV": ENV, "STACK": STACK}
         ),

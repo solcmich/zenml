@@ -66,8 +66,9 @@ def generate_current_data(n_samples: int = 1000) -> pd.DataFrame:
 @step(
     settings={
         "docker": DockerSettings(
-            parent_image="zenmldocker/zenml:py3.11",
+            parent_image="zenmldocker/zenml:0.82.0-py3.11",
             replicate_local_python_environment="pip_freeze",
+            environment={"ENV": ENV, "STACK": STACK}
         ),
     },
     experiment_tracker=f"{STACK}_tracker_{ENV}",

@@ -14,7 +14,7 @@ STACK = os.environ["STACK"]
 @pipeline(
     settings={
         "docker": DockerSettings(
-            parent_image="zenmldocker/zenml:py3.11",
+            parent_image="zenmldocker/zenml:0.82.0-py3.11",
             # replicate_local_python_environment="pip_freeze",
             environment={"ENV": ENV, "STACK": STACK}
         ),

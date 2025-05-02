@@ -62,7 +62,7 @@ def promote_challenger_to_champion(
 @step(
     settings={
         "docker": DockerSettings(
-            parent_image="zenmldocker/zenml:py3.11",
+            parent_image="zenmldocker/zenml:0.82.0-py3.11",
             replicate_local_python_environment="pip_freeze",
             environment={"ENV": ENV, "STACK": STACK}
         ),
@@ -90,7 +90,7 @@ def validate_and_deploy_models(
             # Register model
             run_ids = mlflow.search_runs(filter_string=filter_string, output_format="list")
             run_id = run_ids[0].info.run_id
-            
+
             model_uri = f"runs:/{run_id}/model"
             registered_model = mlflow.register_model(
                 model_uri=model_uri, name=model_name
